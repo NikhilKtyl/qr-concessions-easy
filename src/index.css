@@ -108,4 +108,25 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Mobile-only constraints */
+  #root {
+    max-width: 428px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: hsl(var(--background));
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hide scrollbar for cleaner mobile appearance */
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+  
+  /* Prevent horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
 }

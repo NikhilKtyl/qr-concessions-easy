@@ -58,11 +58,11 @@ const OrderConfirmation: React.FC<OrderConfirmationProps> = ({ order, onNewOrder
       case 'preparing':
         return 'Preparing Your Order...';
       case 'ready':
-        return 'Order Ready for Pickup!';
+        return order.deliveryMethod === 'pickup' ? 'Order Ready for Pickup!' : 'Ready for Delivery!';
       case 'out-for-delivery':
         return 'On the Way to Your Seat!';
       case 'delivered':
-        return 'Order Delivered!';
+        return 'Order Delivered to Your Seat!';
       case 'completed':
         return 'Order Complete!';
       default:
@@ -106,14 +106,31 @@ const OrderConfirmation: React.FC<OrderConfirmationProps> = ({ order, onNewOrder
             </p>
           </div>
 
-          {/* QR Code Placeholder */}
-          <div className="bg-muted rounded-lg p-8 flex flex-col items-center justify-center">
-            <QrCode className="h-32 w-32 text-foreground mb-4" />
-            <p className="text-sm text-muted-foreground text-center">
-              Show this code at pickup
-            </p>
-            <p className="font-mono font-bold text-xl mt-2">{order.orderNumber}</p>
-          </div>
+          {/* QR Code - Only show for pickup orders */}
+          {order.deliveryMethod === 'pickup' && (
+            <div className="bg-muted rounded-lg p-8 flex flex-col items-center justify-center">
+              <QrCode className="h-32 w-32 text-foreground mb-4" />
+              <p className="text-sm text-muted-foreground text-center">
+                Show this code at pickup
+              </p>
+              <p className="font-mono font-bold text-xl mt-2">{order.orderNumber}</p>
+            </div>
+          )}
+          
+          {/* Delivery ETA for delivery orders */}
+          {order.deliveryMethod === 'delivery' && (
+            <div className="bg-muted rounded-lg p-6 text-center">
+              <Truck className="h-16 w-16 text-primary mx-auto mb-3" />
+              <p className="font-semibold text-lg">Delivery to Your Seat</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                {order.seat?.section} • Row {order.seat?.row} • Seat {order.seat?.seat}
+              </p>
+              <div className="mt-4 bg-background rounded-lg p-3">
+                <p className="text-xs text-muted-foreground">Estimated Delivery</p>
+                <p className="font-bold text-xl text-primary">{order.estimatedTime}</p>
+              </div>
+            </div>
+          )}
         </Card>
 
         {/* Delivery/Pickup Info */}
