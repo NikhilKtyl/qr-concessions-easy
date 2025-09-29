@@ -144,17 +144,19 @@ const MenuBrowse: React.FC = () => {
 
       {/* Floating Cart Button */}
       {itemCount > 0 && (
-        <Button
-          variant="cart"
-          size="lg"
-          className="rounded-full shadow-2xl"
-          onClick={() => window.location.href = '/cart'}
-        >
-          <ShoppingCart className="h-6 w-6" />
-          <span className="ml-2">
-            {itemCount} {itemCount === 1 ? 'item' : 'items'} • {formatPrice(cartTotal)}
-          </span>
-        </Button>
+        <div className="fixed bottom-4 left-4 right-4 max-w-[396px] mx-auto">
+          <Button
+            variant="cart"
+            size="lg"
+            className="rounded-full shadow-2xl w-full"
+            onClick={() => window.location.href = '/cart'}
+          >
+            <ShoppingCart className="h-6 w-6" />
+            <span className="ml-2">
+              {itemCount} {itemCount === 1 ? 'item' : 'items'} • {formatPrice(cartTotal)}
+            </span>
+          </Button>
+        </div>
       )}
     </div>
   );

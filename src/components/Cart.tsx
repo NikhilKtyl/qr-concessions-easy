@@ -257,7 +257,7 @@ const Cart: React.FC<CartProps> = ({ onBack, onCheckout }) => {
 
       {/* Checkout Button */}
       {items.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 max-w-[428px] mx-auto">
           <Button
             onClick={handleCheckout}
             variant="hero"

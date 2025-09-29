@@ -86,7 +86,7 @@ const MenuItemDetail: React.FC<MenuItemDetailProps> = ({ item, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-background z-50 overflow-y-auto">
+    <div className="fixed inset-0 bg-background z-50 overflow-y-auto max-w-[428px] mx-auto">
       {/* Header */}
       <div className="sticky top-0 bg-gradient-primary text-primary-foreground p-4 shadow-lg z-10">
         <div className="flex items-center justify-between">
@@ -247,7 +247,7 @@ const MenuItemDetail: React.FC<MenuItemDetailProps> = ({ item, onClose }) => {
       </div>
 
       {/* Add to Cart Button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4">
+      <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 max-w-[428px] mx-auto">
         <Button
           onClick={handleAddToCart}
           variant="hero"

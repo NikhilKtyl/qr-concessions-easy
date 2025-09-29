@@ -17,7 +17,7 @@ const Index = () => {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>('landing');
   const location = useLocation();
   const navigate = useNavigate();
-  const { setSeat, clearCart, items, cartTotal, seat, deliveryMethod } = useCart();
+  const { setSeat, clearCart, items, cartTotal, seat, deliveryMethod, setDeliveryMethod } = useCart();
   const { addOrder, currentOrder, getOrder, updateOrderStatus } = useOrders();
 
   useEffect(() => {
@@ -69,6 +69,7 @@ const Index = () => {
 
   const handleSeatSubmit = (seatLocation: any) => {
     setSeat(seatLocation);
+    setDeliveryMethod('delivery'); // Auto-set to delivery when seat is selected
     setCurrentScreen('menu');
   };
 

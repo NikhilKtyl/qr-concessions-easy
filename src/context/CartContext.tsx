@@ -38,7 +38,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
   const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'delivery'>(() => {
     const saved = localStorage.getItem('deliveryMethod');
-    return (saved as 'pickup' | 'delivery') || 'pickup';
+    if (saved) return saved as 'pickup' | 'delivery';
+    // Default to delivery if seat is selected, otherwise pickup
+    const savedSeat = localStorage.getItem('seat');
+    return savedSeat && savedSeat !== 'null' ? 'delivery' : 'pickup';
   });
 
   useEffect(() => {
