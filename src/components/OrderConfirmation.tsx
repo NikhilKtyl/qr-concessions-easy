@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Order } from '@/types';
+import { QRCodeSVG } from 'qrcode.react';
 
 interface OrderConfirmationProps {
   order: Order;
@@ -106,28 +107,34 @@ const OrderConfirmation: React.FC<OrderConfirmationProps> = ({ order, onNewOrder
             </p>
           </div>
 
-          {/* QR Code - Only show for pickup orders */}
-          {order.deliveryMethod === 'pickup' && (
-            <div className="bg-muted rounded-lg p-8 flex flex-col items-center justify-center">
-              <QrCode className="h-32 w-32 text-foreground mb-4" />
-              <p className="text-sm text-muted-foreground text-center">
-                Show this code at pickup
-              </p>
-              <p className="font-mono font-bold text-xl mt-2">{order.orderNumber}</p>
+          {/* QR Code for order confirmation */}
+          <div className="bg-muted rounded-lg p-8 flex flex-col items-center justify-center">
+            <div className="bg-white p-4 rounded-lg">
+              <QRCodeSVG 
+                value={`ORDER:${order.orderNumber}`} 
+                size={160}
+                level="H"
+              />
             </div>
-          )}
+            <p className="text-sm text-muted-foreground text-center mt-4">
+              {order.deliveryMethod === 'pickup' 
+                ? 'Show this code at pickup' 
+                : 'Show this code to confirm delivery'}
+            </p>
+            <p className="font-mono font-bold text-xl mt-2">{order.orderNumber}</p>
+          </div>
           
-          {/* Delivery ETA for delivery orders */}
+          {/* Delivery Info */}
           {order.deliveryMethod === 'delivery' && (
-            <div className="bg-muted rounded-lg p-6 text-center">
-              <Truck className="h-16 w-16 text-primary mx-auto mb-3" />
-              <p className="font-semibold text-lg">Delivery to Your Seat</p>
+            <div className="bg-background rounded-lg p-4 text-center border">
+              <Truck className="h-12 w-12 text-primary mx-auto mb-2" />
+              <p className="font-semibold">Delivering to Your Seat</p>
               <p className="text-sm text-muted-foreground mt-1">
                 {order.seat?.section} • Row {order.seat?.row} • Seat {order.seat?.seat}
               </p>
-              <div className="mt-4 bg-background rounded-lg p-3">
+              <div className="mt-3 bg-muted rounded-lg p-2">
                 <p className="text-xs text-muted-foreground">Estimated Delivery</p>
-                <p className="font-bold text-xl text-primary">{order.estimatedTime}</p>
+                <p className="font-bold text-lg text-primary">{order.estimatedTime}</p>
               </div>
             </div>
           )}

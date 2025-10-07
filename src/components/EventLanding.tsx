@@ -1,24 +1,38 @@
-import React from 'react';
-import { Calendar, Clock, MapPin, Trophy } from 'lucide-react';
+import React, { useState } from 'react';
+import { Calendar, Clock, MapPin, Trophy, QrCode, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { currentEvent } from '@/data/mockData';
+import Auth from './Auth';
+import QRScanner from './QRScanner';
 
 interface EventLandingProps {
   onStartOrder: () => void;
 }
 
 const EventLanding: React.FC<EventLandingProps> = ({ onStartOrder }) => {
+  const [showAuth, setShowAuth] = useState(false);
+  const [showQRScanner, setShowQRScanner] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-hero flex flex-col">
       {/* School Logo Header */}
       <div className="bg-background/95 backdrop-blur-sm p-4 shadow-lg">
-        <div className="flex items-center justify-center gap-3">
-          <Trophy className="h-10 w-10 text-secondary" />
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground">Wilson High School</h1>
-            <p className="text-sm text-muted-foreground">Go Warriors!</p>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Trophy className="h-10 w-10 text-secondary" />
+            <div>
+              <h1 className="text-xl font-bold text-foreground">Wilson High School</h1>
+              <p className="text-xs text-muted-foreground">Go Warriors!</p>
+            </div>
           </div>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => setShowAuth(true)}
+          >
+            <User className="h-5 w-5" />
+          </Button>
         </div>
       </div>
 
@@ -51,15 +65,27 @@ const EventLanding: React.FC<EventLandingProps> = ({ onStartOrder }) => {
             </div>
           </div>
 
-          {/* CTA Button */}
-          <Button
-            onClick={onStartOrder}
-            variant="hero"
-            size="xl"
-            className="w-full"
-          >
-            Start Order
-          </Button>
+          {/* CTA Buttons */}
+          <div className="space-y-3">
+            <Button
+              onClick={onStartOrder}
+              variant="hero"
+              size="xl"
+              className="w-full"
+            >
+              Start Order
+            </Button>
+            
+            <Button
+              onClick={() => setShowQRScanner(true)}
+              variant="outline"
+              size="xl"
+              className="w-full"
+            >
+              <QrCode className="h-5 w-5 mr-2" />
+              Scan QR to Order
+            </Button>
+          </div>
 
           {/* Delivery Info */}
           <div className="mt-6 p-4 bg-muted rounded-lg">
@@ -78,6 +104,28 @@ const EventLanding: React.FC<EventLandingProps> = ({ onStartOrder }) => {
           Skip the lines • Order from your seat • Pay with card or cash
         </p>
       </div>
+
+      {/* Auth Modal */}
+      {showAuth && (
+        <Auth 
+          onClose={() => setShowAuth(false)}
+          onContinueAsGuest={() => {
+            setShowAuth(false);
+            onStartOrder();
+          }}
+        />
+      )}
+
+      {/* QR Scanner Modal */}
+      {showQRScanner && (
+        <QRScanner 
+          onClose={() => setShowQRScanner(false)}
+          onScanSuccess={() => {
+            setShowQRScanner(false);
+            onStartOrder();
+          }}
+        />
+      )}
     </div>
   );
 };
